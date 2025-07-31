@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/biggest_folders_finder.iml" filepath="$PROJECT_DIR$/biggest_folders_finder.iml" />
+      <module fileurl="file://$PROJECT_DIR$/biggest_folder_finder.iml" filepath="$PROJECT_DIR$/biggest_folder_finder.iml" />
     </modules>
   </component>
 </project>
