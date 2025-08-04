@@ -1,24 +1,20 @@
 import java.io.File;
+import java.util.HashMap;
 import java.util.concurrent.ForkJoinPool;
 
 public class Main {
-    public static void main(String[] args) {
+    private static final char[] sizeMultiplier = {'B', 'K', 'M', 'G', 'T'};
 
+    public static void main(String[] args) {
         String folderPath = "D:\\Doc\\Desktop";
         File file = new File(folderPath);
-//        System.out.println(getFolderSize(file) + "B");
-
-//        long start = System.currentTimeMillis();
-
         FolderSizeCalculator calculator = new FolderSizeCalculator(file);
         ForkJoinPool pool = new ForkJoinPool();
         long size = pool.invoke(calculator);
         System.out.println(size);
-
-//        long duration = System.currentTimeMillis() - start;
-//        System.out.println(duration + " ms");
-//
-        System.out.println(getReadableSize(size));
+        System.out.println(getSizeFromHumanReadable("235K"));
+        System.out.println(getReadableSize(240640));
+        System.out.println(getReadableSize(10158988));
     }
 
     public static long getFolderSize(File folder) {
@@ -34,13 +30,32 @@ public class Main {
     }
 
     public static String getReadableSize(long size) {
-        int oneBite = 1024;
-        return size / oneBite + "Kb";
+        for (int i = 0; i < sizeMultiplier.length; i++) {
+            double value = size / Math.pow(1024, i);
+            if (value < 1024) {
+                return Math.round(value) + "" + sizeMultiplier[i] + (i > 0 ? "b" : "");
+            }
+        }
+        return "Very big!";
     }
 
     public static long getSizeFromHumanReadable(String size) {
-        int oneBite = 1024;
+        HashMap<Character, Integer> char2multiplier = getMultipliers();
+        char sizeFactor = size
+                .replaceAll("[0-9\\s+]+", "")
+                .charAt(0);
+        int multiplier = char2multiplier.get(sizeFactor);
+        long length = multiplier * Long.valueOf(
+                size.replaceAll("[^0-9]", "")
+        );
+        return length;
+    }
 
-        return 0;
+    public static HashMap<Character, Integer> getMultipliers() {
+        HashMap<Character, Integer> char2multiplier = new HashMap<>();
+        for (int i = 0; i < sizeMultiplier.length; i++) {
+            char2multiplier.put(sizeMultiplier[i], (int) Math.pow(1024, i));
+        }
+        return char2multiplier;
     }
 }
