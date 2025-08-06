@@ -4,7 +4,7 @@ import java.util.concurrent.ForkJoinPool;
 public class Main {
 
     public static void main(String[] args) {
-        String folderPath = "C:\\Gradle";
+        String folderPath = "D:\\Doc\\Desktop\\web-projects";
         File file = new File(folderPath);
         Node root = new Node(file);
         FolderSizeCalculator calculator = new FolderSizeCalculator(root);

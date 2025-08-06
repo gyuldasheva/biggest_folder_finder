@@ -3,9 +3,9 @@ import java.util.ArrayList;
 
 public class Node {
     private File folder;
-    private ArrayList<Node> children;
+    private final ArrayList<Node> children;
     private long size;
-    private  int level;
+    private int level;
 
     public Node(File folder) {
         this.folder = folder;
@@ -36,9 +36,14 @@ public class Node {
     public String toString() {
         StringBuilder builder = new StringBuilder();
         String size = SizeCalculator.getReadableSize(getSize());
-        builder.append(folder.getName() +  " - " + size + "\n");
-        for (Node child : children) {
-            builder.append("  " + child.toString());
+        builder.append("    ".repeat(level))
+                .append(folder.getName())
+                .append(" - ")
+                .append(size)
+                .append("\n");
+
+        for(Node child : children) {
+            builder.append(child.toString());
         }
         return builder.toString();
     }
@@ -46,4 +51,6 @@ public class Node {
     private void setLevel(int level) {
         this.level = level;
     }
+
+
 }
